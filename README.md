@@ -4,8 +4,31 @@
 
 ## 🌟 Planned Features
 
-- 🖥️ Aider terminal integration within Neovim
-- 🎨 Color theme configuration support
-- 🧩 Easy installation with lazy.nvim
-- 📤 Send buffers, selections, or file names to Aider
+- [x] 🖥️ Aider terminal integration within Neovim
+- [x] 🎨 Color theme configuration support
+- [ ] 📤 Send buffers, selections, or file names to Aider
 
+## 🔗 Dependencies
+
+🐍 Python: Install aider  
+🌙 Lua: folke/snacks.nvim
+
+## 📦 Installation
+
+Using lazy.nvim:
+
+```lua
+{
+    "GeorgesAlkhouri/nvim-aider",
+    cmd = {
+      "AiderTerminalToggle",
+    },
+    keys = {
+      { "<leader>z", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
+    },
+    dependencies = {
+      "folke/snacks.nvim",
+    },
+    config = true,
+  }
+```
