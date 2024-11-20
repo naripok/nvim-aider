@@ -79,7 +79,7 @@ function terminal.send(text, opts, add_newline)
 	local cmd = create_cmd(opts)
 	local term = get_terminal(cmd, opts)
 	if not term then
-		vim.notify("No valid terminal found", vim.log.levels.ERROR)
+		vim.notify("Please open an Aider terminal fist.", vim.log.levels.INFO)
 		return
 	end
 
@@ -88,12 +88,13 @@ function terminal.send(text, opts, add_newline)
 		if chan then
 			vim.api.nvim_chan_send(chan, text)
 		else
-			vim.notify("No terminal job found", vim.log.levels.ERROR)
+			vim.notify("No Aider terminal job found!", vim.log.levels.ERROR)
 		end
 	else
-		vim.notify("No valid terminal found", vim.log.levels.ERROR)
+		vim.notify("Please open an Aider terminal fist.", vim.log.levels.INFO)
 	end
 end
 
+M.terminal = terminal
 M.terminal = terminal
 return M

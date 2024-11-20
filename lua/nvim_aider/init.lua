@@ -14,8 +14,16 @@ function M.setup(opts)
 	end, {})
 
 	vim.api.nvim_create_user_command("AiderTerminalSend", function(args)
-		M.terminal.send(args.args)
-	end, { nargs = "+" })
+		if args.args == "" then
+			vim.ui.input({ prompt = "Send to Aider: " }, function(input)
+				if input then
+					M.terminal.send(input)
+				end
+			end)
+		else
+			M.terminal.send(args.args)
+		end
+	end, { nargs = "?" })
 end
 
 return M
