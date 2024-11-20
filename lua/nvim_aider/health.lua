@@ -33,6 +33,14 @@ function M.check()
       "Install folke/snacks.nvim using your plugin manager",
     })
   end
+
+  -- Catppuccin plugin check
+  local has_catppuccin = pcall(require, "catppuccin")
+  if has_catppuccin then
+    health.ok("catppuccin plugin found (optional)")
+  else
+    health.info("catppuccin plugin not found (optional)")
+  end
 end
 
 return M
