@@ -1,4 +1,4 @@
-# 🚀 nvim-aider
+# [![aider](https://avatars.githubusercontent.com/u/172139148?s=20&v=4)](https://aider.chat) nvim-aider
 
 🤖 Seamlessly integrate Aider with Neovim for an enhanced AI-assisted coding experience!
 
@@ -39,3 +39,9 @@ Using lazy.nvim:
     config = true,
   }
 ```
+
+---
+
+<div align="center">
+Made with 🤖 using <a href="https://github.com/paul-gauthier/aider">Aider</a>
+</div>
