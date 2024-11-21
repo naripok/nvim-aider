@@ -4,28 +4,6 @@ local M = {}
 ---@class nvim_aider.terminal
 local terminal = {}
 
----@type table<string, snacks.win>
-local terminals = {}
-
--- Generate consistent terminal ID
----@param cmd? string[]
----@param opts? nvim_aider.Config
----@return string
-local function get_terminal_id(cmd, opts)
-  opts = opts or {}
-  return vim.inspect({ cmd = cmd, cwd = opts.cwd, env = opts.env, count = vim.v.count1 })
-end
-
----Get existing terminal
----@param cmd  string[]
----@param opts? nvim_aider.Config
----@return snacks.win|nil
-local function get_terminal(cmd, opts)
-  local id = get_terminal_id(cmd, opts)
-  local term = terminals[id]
-  return term and term:buf_valid() and term or nil
-end
-
 ---Create command string list from options
 ---@param opts nvim_aider.Config
 ---@return string[]
@@ -52,17 +30,7 @@ function terminal.toggle(opts)
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
 
   local cmd = create_cmd(opts)
-  local term = get_terminal(cmd, opts)
-
-  if term and term:buf_valid() then
-    term:toggle()
-    return term
-  else
-    term = snacks.toggle(cmd, opts)
-    local id = get_terminal_id(cmd, opts)
-    terminals[id] = term
-    return term
-  end
+  return snacks.toggle(cmd, opts)
 end
 
 ---Send text to terminal
@@ -77,7 +45,7 @@ function terminal.send(text, opts, add_newline)
   end
 
   local cmd = create_cmd(opts)
-  local term = get_terminal(cmd, opts)
+  local term = require("snacks.terminal").get(cmd, opts)
   if not term then
     vim.notify("Please open an Aider terminal fist.", vim.log.levels.INFO)
     return
