@@ -12,7 +12,9 @@
 - [x] 🖥️ Aider terminal integration within Neovim
 - [x] 🎨 Color theme configuration support with auto Catppuccin flavor synchronization
       if available
-- [ ] 📤 Send buffers, selections, or file names to Aider
+- [x] 📤 Quick commands to add/drop current buffer files
+- [ ] 🔍 Aider command selection UI with fuzzy search and input prompt
+- [ ] 📤 Send buffers and selections to Aider
 
 ## 🎮 Commands
 
@@ -20,6 +22,8 @@
 - 📤 `AiderTerminalSend [text]` - Send text to Aider
   - Without arguments: Opens input prompt
   - With arguments: Sends provided text directly
+- 📁 `AiderQuickAddFile` - Add current buffer file to Aider session
+- 🗑️ `AiderQuickDropFile` - Remove current buffer file from Aider session
 
 ## 🔗 Dependencies
 
@@ -39,6 +43,8 @@ Using lazy.nvim:
     keys = {
       { "<leader>a/", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
       { "<leader>a;", "<cmd>AiderTerminalSend<cr>", desc = "Send To Aider" },
+      { "<leader>a+", "<cmd>AiderQuickAddFile<cr>", desc = "Add File to Aider" },
+      { "<leader>a-", "<cmd>AiderQuickDropFile<cr>", desc = "Drop File from Aider" },
     },
     dependencies = {
       "folke/snacks.nvim",
