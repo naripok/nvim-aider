@@ -60,4 +60,13 @@ function M.send(text, opts, add_newline)
   end
 end
 
+---@param command string Aidar command
+---@param text string Text to send
+---@param opts? nvim_aider.Config
+---@param add_newline? boolean
+function M.command(command, text, opts, add_newline)
+  opts = vim.tbl_deep_extend("force", config.options, opts or {})
+  M.send(command .. " " .. text, opts, add_newline)
+end
+
 return M
