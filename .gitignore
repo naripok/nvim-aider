@@ -1,3 +1,5 @@
+.repo/
+
 # Devenv
 .devenv*
 devenv.local.nix

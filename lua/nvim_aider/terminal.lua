@@ -1,9 +1,6 @@
 local config = require("nvim_aider.config")
 local M = {}
 
----@class nvim_aider.terminal
-local terminal = {}
-
 ---Create command string list from options
 ---@param opts nvim_aider.Config
 ---@return string[]
@@ -24,7 +21,7 @@ end
 ---Toggle terminal visibility
 ---@param opts? nvim_aider.Config
 ---@return snacks.win
-function terminal.toggle(opts)
+function M.toggle(opts)
   local snacks = require("snacks.terminal")
 
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
@@ -37,7 +34,7 @@ end
 ---@param text string Text to send
 ---@param opts? nvim_aider.Config
 ---@param add_newline? boolean
-function terminal.send(text, opts, add_newline)
+function M.send(text, opts, add_newline)
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
 
   if add_newline ~= false then
@@ -63,6 +60,4 @@ function terminal.send(text, opts, add_newline)
   end
 end
 
-M.terminal = terminal
-M.terminal = terminal
 return M
