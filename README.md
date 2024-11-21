@@ -4,6 +4,8 @@
 
 ![screenshot_1](https://github.com/user-attachments/assets/5d779f73-5441-4d24-8cce-e6dfdc5bf787)
 
+> 🚧 This plugin is in initial development. Expect breaking changes and rough edges.
+
 ## 🌟 Features
 
 - [x] 🖥️ Aider terminal integration within Neovim
