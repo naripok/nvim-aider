@@ -4,7 +4,8 @@
 
 ![screenshot_1](https://github.com/user-attachments/assets/5d779f73-5441-4d24-8cce-e6dfdc5bf787)
 
-> 🚧 This plugin is in initial development. Expect breaking changes and rough edges.
+> 🚧 This plugin is in initial development. Expect breaking changes and rough edges.  
+> _October 17, 2024_
 
 ## 🌟 Features
 
@@ -36,7 +37,8 @@ Using lazy.nvim:
       "AiderTerminalToggle",
     },
     keys = {
-      { "<leader>z", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
+      { "<leader>a/", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
+      { "<leader>a;", "<cmd>AiderTerminalSend<cr>", desc = "Send To Aider" },
     },
     dependencies = {
       "folke/snacks.nvim",
