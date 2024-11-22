@@ -33,8 +33,9 @@ end
 ---Send text to terminal
 ---@param text string Text to send
 ---@param opts? nvim_aider.Config
----@param add_newline? boolean
-function M.send(text, opts, add_newline)
+---@param multi_line? boolean
+function M.send(text, opts, multi_line)
+  multi_line = multi_line == nil and true or multi_line
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
 
   local cmd = create_cmd(opts)
@@ -47,8 +48,13 @@ function M.send(text, opts, add_newline)
   if term and term:buf_valid() then
     local chan = vim.api.nvim_buf_get_var(term.buf, "terminal_job_id")
     if chan then
-      vim.fn.setreg("+", text)
-      vim.api.nvim_chan_send(chan, "/paste\n")
+      if multi_line then
+        vim.fn.setreg("+", text)
+        vim.api.nvim_chan_send(chan, "/paste\n")
+      else
+        text = text.gsub(text, "\n", " ") .. "\n"
+        vim.api.nvim_chan_send(chan, text)
+      end
     else
       vim.notify("No Aider terminal job found!", vim.log.levels.ERROR)
     end
@@ -60,10 +66,10 @@ end
 ---@param command string Aidar command
 ---@param text string Text to send
 ---@param opts? nvim_aider.Config
----@param add_newline? boolean
-function M.command(command, text, opts, add_newline)
+function M.command(command, text, opts)
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
-  M.send(command .. " " .. text, opts, add_newline)
+  -- NOTE: commands like `/add file` should be send to aider without a newline
+  M.send(command .. " " .. text, opts, false)
 end
 
 return M
