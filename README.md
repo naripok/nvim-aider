@@ -13,8 +13,11 @@
 - [x] 🎨 Color theme configuration support with auto Catppuccin flavor synchronization
       if available
 - [x] 📤 Quick commands to add/drop current buffer files
+- [x] 📤 Send selections to Aider wrapped in
+      [multi-line tags](https://aider.chat/docs/usage/commands.html#entering-multi-line-chat-messages)
+      with the corresponding filetype
 - [ ] 🔍 Aider command selection UI with fuzzy search and input prompt
-- [ ] 📤 Send buffers and selections to Aider
+- [ ] 📤 Send buffers to Aider
 
 ## 🎮 Commands
 
@@ -42,7 +45,7 @@ Using lazy.nvim:
     },
     keys = {
       { "<leader>a/", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
-      { "<leader>a;", "<cmd>AiderTerminalSend<cr>", desc = "Send To Aider" },
+      { "<leader>as", "<cmd>AiderTerminalSend<cr>", desc = "Send To Aider", mode = { "n", "v" } },
       { "<leader>a+", "<cmd>AiderQuickAddFile<cr>", desc = "Add File to Aider" },
       { "<leader>a-", "<cmd>AiderQuickDropFile<cr>", desc = "Drop File from Aider" },
     },

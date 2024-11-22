@@ -15,16 +15,31 @@ function M.setup(opts)
   end, {})
 
   vim.api.nvim_create_user_command("AiderTerminalSend", function(args)
-    if args.args == "" then
-      vim.ui.input({ prompt = "Send to Aider: " }, function(input)
-        if input then
-          M.terminal.send(input)
-        end
-      end)
+    local mode = vim.fn.mode()
+    if vim.tbl_contains({ "v", "V", "" }, mode) then
+      -- Visual mode behavior
+      local lines = vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = mode })
+      local selected_text = table.concat(lines, "\n")
+      local file_type = vim.bo.filetype
+      if file_type == "" then
+        file_type = "text"
+      end
+      -- NOTE: add aider multiline tags
+      selected_text = "{" .. file_type .. "\n" .. selected_text .. "\n" .. file_type .. "}"
+      M.terminal.send(selected_text)
     else
-      M.terminal.send(args.args)
+      -- Normal mode behavior
+      if args.args == "" then
+        vim.ui.input({ prompt = "Send to Aider: " }, function(input)
+          if input then
+            M.terminal.send(input)
+          end
+        end)
+      else
+        M.terminal.send(args.args)
+      end
     end
-  end, { nargs = "?" })
+  end, { nargs = "?", range = true, desc = "Send text to Aider terminal" })
 
   vim.api.nvim_create_user_command("AiderQuickAddFile", function()
     local relative_filepath = utils.get_relative_path()
