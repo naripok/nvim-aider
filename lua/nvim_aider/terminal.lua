@@ -37,10 +37,6 @@ end
 function M.send(text, opts, add_newline)
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
 
-  if add_newline ~= false then
-    text = text .. "\n"
-  end
-
   local cmd = create_cmd(opts)
   local term = require("snacks.terminal").get(cmd, opts)
   if not term then
@@ -51,7 +47,8 @@ function M.send(text, opts, add_newline)
   if term and term:buf_valid() then
     local chan = vim.api.nvim_buf_get_var(term.buf, "terminal_job_id")
     if chan then
-      vim.api.nvim_chan_send(chan, text)
+      vim.fn.setreg("+", text)
+      vim.api.nvim_chan_send(chan, "/paste\n")
     else
       vim.notify("No Aider terminal job found!", vim.log.levels.ERROR)
     end

@@ -13,11 +13,9 @@
 - [x] 🎨 Color theme configuration support with auto Catppuccin flavor synchronization
       if available
 - [x] 📤 Quick commands to add/drop current buffer files
-- [x] 📤 Send selections to Aider wrapped in
-      [multi-line tags](https://aider.chat/docs/usage/commands.html#entering-multi-line-chat-messages)
-      with the corresponding filetype
+- [x] 📤 Send buffers or selections to Aider
+- [x] 💬 Optional user prompt for buffer and selection sends
 - [ ] 🔍 Aider command selection UI with fuzzy search and input prompt
-- [ ] 📤 Send buffers to Aider
 
 ## 🎮 Commands
 
@@ -25,13 +23,21 @@
 - 📤 `AiderTerminalSend [text]` - Send text to Aider
   - Without arguments: Opens input prompt
   - With arguments: Sends provided text directly
+  - In visual mode: Sends selected text with an optional prompt
 - 📁 `AiderQuickAddFile` - Add current buffer file to Aider session
 - 🗑️ `AiderQuickDropFile` - Remove current buffer file from Aider session
+- 📋 `AiderQuickSendBuffer` - Send entire buffer content to Aider
+  with an optional prompt
 
 ## 🔗 Dependencies
 
 🐍 Python: Install `aider`  
-🌙 Lua: `folke/snacks.nvim`, _optionals_ `catppuccin/nvim`
+🌙 Lua: `folke/snacks.nvim`, _optionals_ `catppuccin/nvim`  
+📋 System: Working clipboard
+
+> Note: 📎 This plugin requires a working system clipboard as
+> it sends text to the terminal via Aider's /paste commands,
+> which inserts the system clipboard register for the best compatibility.
 
 ## 📦 Installation
 
@@ -45,7 +51,8 @@ Using lazy.nvim:
     },
     keys = {
       { "<leader>a/", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
-      { "<leader>as", "<cmd>AiderTerminalSend<cr>", desc = "Send To Aider", mode = { "n", "v" } },
+      { "<leader>as", "<cmd>AiderTerminalSend<cr>", desc = "Send to Aider", mode = { "n", "v" } },
+      { "<leader>ab", "<cmd>AiderQuickSendBuffer<cr>", desc = "Send Buffer To Aider" },
       { "<leader>a+", "<cmd>AiderQuickAddFile<cr>", desc = "Add File to Aider" },
       { "<leader>a-", "<cmd>AiderQuickDropFile<cr>", desc = "Drop File from Aider" },
     },

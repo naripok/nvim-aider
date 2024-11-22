@@ -3,10 +3,11 @@ local M = {}
 M.config = require("nvim_aider.config")
 M.terminal = require("nvim_aider.terminal")
 
+local utils = require("nvim_aider.utils")
+
 ---@param opts? nvim_aider.Config
 function M.setup(opts)
   local commands = require("nvim_aider.commands")
-  local utils = require("nvim_aider.utils")
 
   M.config.setup(opts)
 
@@ -24,9 +25,14 @@ function M.setup(opts)
       if file_type == "" then
         file_type = "text"
       end
-      -- NOTE: add aider multiline tags
-      selected_text = "{" .. file_type .. "\n" .. selected_text .. "\n" .. file_type .. "}"
-      M.terminal.send(selected_text)
+      vim.ui.input({ prompt = "Add a prompt to your selection (empty to skip):" }, function(input)
+        if input ~= nil then
+          if input ~= "" then
+            selected_text = selected_text .. "\n> " .. input
+          end
+          M.terminal.send(selected_text)
+        end
+      end)
     else
       -- Normal mode behavior
       if args.args == "" then
@@ -40,6 +46,22 @@ function M.setup(opts)
       end
     end
   end, { nargs = "?", range = true, desc = "Send text to Aider terminal" })
+
+  vim.api.nvim_create_user_command("AiderQuickSendBuffer", function()
+    local selected_text = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+    local file_type = vim.bo.filetype
+    if file_type == "" then
+      file_type = "text"
+    end
+    vim.ui.input({ prompt = "Add a prompt to your buffer (empty to skip):" }, function(input)
+      if input ~= nil then
+        if input ~= "" then
+          selected_text = selected_text .. "\n> " .. input
+        end
+        M.terminal.send(selected_text)
+      end
+    end)
+  end, {})
 
   vim.api.nvim_create_user_command("AiderQuickAddFile", function()
     local relative_filepath = utils.get_relative_path()
