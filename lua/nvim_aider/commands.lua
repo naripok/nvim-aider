@@ -1,11 +1,17 @@
+-- Type definitions
 ---@alias CommandCategory "input"|"direct"
 
 ---@class Command
----@field value string
----@field description string
----@field category CommandCategory
+---@field value string The command string with prefix
+---@field description string Description of the command's function
+---@field category CommandCategory The category this command belongs to
 
+-- Constants
+---@type string
 local COMMAND_PREFIX = "/"
+
+-- Command registry
+---@type table<string, Command>
 local commands = {
   add = {
     value = COMMAND_PREFIX .. "add",
@@ -15,7 +21,7 @@ local commands = {
   architect = {
     value = COMMAND_PREFIX .. "architect",
     description = "Enter architect mode for high-level design discussions",
-    category = "direct",
+    category = "input",
   },
   ask = {
     value = COMMAND_PREFIX .. "ask",
@@ -40,7 +46,7 @@ local commands = {
   commit = {
     value = COMMAND_PREFIX .. "commit",
     description = "Commit edits made outside the chat to the repo",
-    category = "direct",
+    category = "input",
   },
   copy = {
     value = COMMAND_PREFIX .. "copy",
@@ -55,7 +61,7 @@ local commands = {
   drop = {
     value = COMMAND_PREFIX .. "drop",
     description = "Remove files from chat session to free context space",
-    category = "direct",
+    category = "input",
   },
   exit = {
     value = COMMAND_PREFIX .. "exit",
@@ -150,7 +156,7 @@ local commands = {
   test = {
     value = COMMAND_PREFIX .. "test",
     description = "Run command, add output to chat on non-zero exit",
-    category = "input",
+    category = "direct",
   },
   tokens = {
     value = COMMAND_PREFIX .. "tokens",
@@ -162,11 +168,11 @@ local commands = {
     description = "Undo last git commit if done by aider",
     category = "direct",
   },
-  voice = {
-    value = COMMAND_PREFIX .. "voice",
-    description = "Record and transcribe voice input",
-    category = "direct",
-  },
+  -- voice = {
+  --   value = COMMAND_PREFIX .. "voice",
+  --   description = "Record and transcribe voice input",
+  --   category = "direct",
+  -- },
   web = {
     value = COMMAND_PREFIX .. "web",
     description = "Scrape webpage, convert to markdown, send in message",

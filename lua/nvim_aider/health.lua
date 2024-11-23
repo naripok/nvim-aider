@@ -45,6 +45,16 @@ function M.check()
     })
   end
 
+  -- Telescope plugin check
+  local has_telescope = pcall(require, "telescope")
+  if has_telescope then
+    health.ok("telescope.nvim plugin found")
+  else
+    health.error("telescope.nvim plugin not found", {
+      "Install nvim-telescope/telescope.nvim using your plugin manager",
+    })
+  end
+
   -- Catppuccin plugin check
   local has_catppuccin = pcall(require, "catppuccin")
   if has_catppuccin then

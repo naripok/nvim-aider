@@ -15,7 +15,7 @@
 - [x] 📤 Quick commands to add/drop current buffer files
 - [x] 📤 Send buffers or selections to Aider
 - [x] 💬 Optional user prompt for buffer and selection sends
-- [ ] 🔍 Aider command selection UI with fuzzy search and input prompt
+- [x] 🔍 Aider command selection UI with fuzzy search and input prompt
 
 ## 🎮 Commands
 
@@ -24,6 +24,8 @@
   - Without arguments: Opens input prompt
   - With arguments: Sends provided text directly
   - In visual mode: Sends selected text with an optional prompt
+- 🔍 `AiderQuickSendCommand` - List all Aider commands in telescope picker
+  with option to add prompt after selection
 - 📁 `AiderQuickAddFile` - Add current buffer file to Aider session
 - 🗑️ `AiderQuickDropFile` - Remove current buffer file from Aider session
 - 📋 `AiderQuickSendBuffer` - Send entire buffer content to Aider
@@ -32,7 +34,8 @@
 ## 🔗 Dependencies
 
 🐍 Python: Install `aider`  
-🌙 Lua: `folke/snacks.nvim`, _optionals_ `catppuccin/nvim`  
+🌙 Lua: `folke/snacks.nvim`, `nvim-telescope/telescope.nvim`,
+_optionals_ `catppuccin/nvim`  
 📋 System: Working clipboard
 
 > Note: 📎 This plugin requires a working system clipboard as
@@ -52,12 +55,14 @@ Using lazy.nvim:
     keys = {
       { "<leader>a/", "<cmd>AiderTerminalToggle<cr>", desc = "Open Aider" },
       { "<leader>as", "<cmd>AiderTerminalSend<cr>", desc = "Send to Aider", mode = { "n", "v" } },
+      { "<leader>ac", "<cmd>AiderQuickSendCommand<cr>", desc = "Send Command To Aider" },
       { "<leader>ab", "<cmd>AiderQuickSendBuffer<cr>", desc = "Send Buffer To Aider" },
       { "<leader>a+", "<cmd>AiderQuickAddFile<cr>", desc = "Add File to Aider" },
       { "<leader>a-", "<cmd>AiderQuickDropFile<cr>", desc = "Drop File from Aider" },
     },
     dependencies = {
       "folke/snacks.nvim",
+      "nvim-telescope/telescope.nvim",
       --- The below dependencies are optional
       "catppuccin/nvim",
     },

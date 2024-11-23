@@ -3,12 +3,24 @@ local M = {}
 M.config = require("nvim_aider.config")
 M.terminal = require("nvim_aider.terminal")
 
+local commands = require("nvim_aider.commands")
+local picker = require("nvim_aider.ui")
 local utils = require("nvim_aider.utils")
+
+local function on_selection(selection)
+  if selection.category == "input" then
+    vim.ui.input({ prompt = "Enter input for `" .. selection.value .. "` (empty to skip):" }, function(input)
+      if input then
+        M.terminal.command(selection.value, input)
+      end
+    end)
+  else
+    M.terminal.command(selection.value)
+  end
+end
 
 ---@param opts? nvim_aider.Config
 function M.setup(opts)
-  local commands = require("nvim_aider.commands")
-
   M.config.setup(opts)
 
   vim.api.nvim_create_user_command("AiderTerminalToggle", function()
@@ -46,6 +58,10 @@ function M.setup(opts)
       end
     end
   end, { nargs = "?", range = true, desc = "Send text to Aider terminal" })
+
+  vim.api.nvim_create_user_command("AiderQuickSendCommand", function()
+    picker(require("telescope.themes").get_dropdown({}), on_selection)
+  end, {})
 
   vim.api.nvim_create_user_command("AiderQuickSendBuffer", function()
     local selected_text = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")

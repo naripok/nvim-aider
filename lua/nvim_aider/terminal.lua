@@ -1,5 +1,7 @@
-local config = require("nvim_aider.config")
 local M = {}
+
+local commands = require("nvim_aider.commands")
+local config = require("nvim_aider.config")
 
 ---Create command string list from options
 ---@param opts nvim_aider.Config
@@ -50,7 +52,7 @@ function M.send(text, opts, multi_line)
     if chan then
       if multi_line then
         vim.fn.setreg("+", text)
-        vim.api.nvim_chan_send(chan, "/paste\n")
+        vim.api.nvim_chan_send(chan, commands.paste.value .. "\n")
       else
         text = text.gsub(text, "\n", " ") .. "\n"
         vim.api.nvim_chan_send(chan, text)
@@ -64,9 +66,11 @@ function M.send(text, opts, multi_line)
 end
 
 ---@param command string Aidar command
----@param text string Text to send
+---@param text? string Text to send
 ---@param opts? nvim_aider.Config
 function M.command(command, text, opts)
+  text = text or ""
+
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
   -- NOTE: commands like `/add file` should be send to aider without a newline
   M.send(command .. " " .. text, opts, false)
