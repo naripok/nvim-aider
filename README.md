@@ -32,12 +32,12 @@
 - 📋 `AiderQuickSendBuffer` - Send entire buffer content to Aider
   with an optional prompt
 
-## 🔗 Dependencies
+## 🔗 Requirements
 
 🐍 Python: Install `aider`  
+📋 System: **Neovim** >= 0.9.4, Working clipboard  
 🌙 Lua: `folke/snacks.nvim`, `nvim-telescope/telescope.nvim`,
-_optionals_ `catppuccin/nvim`  
-📋 System: Working clipboard
+_optionals_ `catppuccin/nvim`
 
 > Note: 📎 This plugin requires a working system clipboard as
 > it sends text to the terminal via Aider's /paste commands,
