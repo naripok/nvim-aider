@@ -15,9 +15,14 @@ in
     git
     lua-language-server
     stylua
-    aider-chat
   ];
   languages.lua.enable = true;
   languages.lua.package = unstable.lua;
+  languages.python.enable = true;
+  languages.python.uv.enable = true;
+  languages.python.venv.enable = true;
+  languages.python.venv.requirements = ''
+    aider-chat
+  '';
 
 }
