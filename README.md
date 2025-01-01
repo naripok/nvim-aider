@@ -34,7 +34,7 @@
 
 ## 🔗 Requirements
 
-🐍 Python: Install `aider`  
+🐍 Python: Install `aider-chat`  
 📋 System: **Neovim** >= 0.9.4, Working clipboard  
 🌙 Lua: `folke/snacks.nvim`, `nvim-telescope/telescope.nvim`,
 _optionals_ `catppuccin/nvim`
