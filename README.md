@@ -17,6 +17,8 @@
 - [x] 📤 Send buffers or selections to Aider
 - [x] 💬 Optional user prompt for buffer and selection sends
 - [x] 🔍 Aider command selection UI with fuzzy search and input prompt
+- [x] 🌳 Integration with [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua)
+      for adding or dropping files directly from the tree interface
 
 ## 🎮 Commands
 
@@ -37,7 +39,7 @@
 🐍 Python: Install `aider-chat`  
 📋 System: **Neovim** >= 0.9.4, ~~Working clipboard~~ thanks to @milanglacier  
 🌙 Lua: `folke/snacks.nvim`, `nvim-telescope/telescope.nvim`,
-_optionals_ `catppuccin/nvim`
+_optionals_ `catppuccin/nvim`, `nvim-tree.lua`
 
 ## 📦 Installation
 
@@ -56,12 +58,16 @@ Using lazy.nvim:
       { "<leader>ab", "<cmd>AiderQuickSendBuffer<cr>", desc = "Send Buffer To Aider" },
       { "<leader>a+", "<cmd>AiderQuickAddFile<cr>", desc = "Add File to Aider" },
       { "<leader>a-", "<cmd>AiderQuickDropFile<cr>", desc = "Drop File from Aider" },
+      -- Example nvim-tree.lua integration if needed
+      { "<leader>a+", "<cmd>AiderTreeAddFile<cr>", desc = "Add File from Tree to Aider", ft = "NvimTree" },
+      { "<leader>a-", "<cmd>AiderTreeDropFile<cr>", desc = "Drop File from Tree from Aider", ft = "NvimTree" },
     },
     dependencies = {
       "folke/snacks.nvim",
       "nvim-telescope/telescope.nvim",
       --- The below dependencies are optional
       "catppuccin/nvim",
+      "nvim-tree/nvim-tree.lua",
     },
     config = true,
   }
