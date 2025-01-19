@@ -97,6 +97,15 @@ function M.setup(opts)
     end
   end, {})
 
+  vim.api.nvim_create_user_command("AiderQuickReadOnlyFile", function()
+    local filepath = utils.get_absolute_path()
+    if filepath == nil then
+      vim.notify("No valid file in current buffer", vim.log.levels.INFO)
+    else
+      M.terminal.command(commands["read-only"].value, filepath)
+    end
+  end, {})
+
   -- Setup nvim-tree integration
   require("nvim_aider.tree").setup(opts)
 end
