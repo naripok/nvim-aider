@@ -1,5 +1,7 @@
 local M = {}
 
+local aider_terminal_count = 999
+
 local config = require("nvim_aider.config")
 
 local function create_cmd(opts)
@@ -14,6 +16,7 @@ local function create_terminal(opts)
   return Terminal:new({
     cmd = create_cmd(opts),
     direction = "vertical",
+    count = aider_terminal_count
   })
 end
 
@@ -47,7 +50,7 @@ function M.send(text, opts, multi_line)
     return
   end
 
-  local bufnr = term:_get_bufnr()
+  local bufnr = term.bufnr
   if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
     local chan = vim.api.nvim_buf_get_var(bufnr, "terminal_job_id")
     if chan then
