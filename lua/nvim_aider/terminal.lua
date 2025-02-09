@@ -2,7 +2,11 @@ local M = {}
 
 local config = require("nvim_aider.config")
 
-local aider_command = "aider --env-file=~/.env"
+local function create_cmd(opts)
+  local cmd = { "aider" }
+  vim.list_extend(cmd, opts.args or {})
+  return table.concat(cmd, " ")
+end
 
 function M.toggle(opts)
   if vim.fn.executable("aider") == 0 then
@@ -15,7 +19,7 @@ function M.toggle(opts)
   local Terminal = require("toggleterm.terminal").Terminal
 
   local term = Terminal:new({
-    cmd = aider_command,
+    cmd = create_cmd(opts),
     hidden = true,
   })
 
@@ -37,7 +41,7 @@ function M.send(text, opts, multi_line)
 
   local Terminal = require("toggleterm.terminal").Terminal
   local term = Terminal:new({
-    cmd = aider_command,
+    cmd = create_cmd(opts),
     hidden = true,
   })
 
