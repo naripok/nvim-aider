@@ -24,13 +24,23 @@ function M.check()
     })
   end
 
-  -- Snacks plugin check
-  local has_snacks = pcall(require, "snacks")
+  -- Toggleterm plugin check
+  local has_snacks = pcall(require, "toggleterm")
   if has_snacks then
-    health.ok("snacks.nvim plugin found")
+    health.ok("toggleterm.nvim plugin found")
   else
-    health.error("snacks.nvim plugin not found", {
-      "Install folke/snacks.nvim using your plugin manager",
+    health.error("toggleterm.nvim plugin not found", {
+      "Install akinsho/toggleterm.nvim using your plugin manager",
+    })
+  end
+
+  -- Toggleterm plugin check
+  local has_snacks = pcall(require, "telescope")
+  if has_snacks then
+    health.ok("telescope.nvim plugin found")
+  else
+    health.error("telescope.nvim plugin not found", {
+      "Install nvim-telescope/telescope.nvim using your plugin manager",
     })
   end
 

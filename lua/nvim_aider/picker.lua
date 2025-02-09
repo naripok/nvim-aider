@@ -1,9 +1,14 @@
 ---@class nvim_aider.picker
 local M = {}
 local config = require("nvim_aider.config")
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local conf = require("telescope.config").values
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
 
 ---@param opts? nvim_aider.Config
----@param confirm? fun(picker: snacks.Picker, item: table)
+---@param confirm? fun(picker: table, item: table)
 function M.create(opts, confirm)
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
   -- Build items from commands
@@ -20,19 +25,30 @@ function M.create(opts, confirm)
   end
   longest_cmd = longest_cmd + 2
 
-  return require("snacks.picker")({
-    items = items,
-    layout = opts.picker_cfg,
-    format = function(item)
-      local ret = {}
-      ret[#ret + 1] = { ("%-" .. longest_cmd .. "s"):format(item.text), "Function" }
-      ret[#ret + 1] = { " " .. item.description, "Comment" }
-      return ret
+  pickers.new(opts.picker_cfg or {}, {
+    prompt_title = "Aider Commands",
+    finder = finders.new_table({
+      results = items,
+      entry_maker = function(item)
+        return {
+          value = item,
+          display = item.text .. " " .. item.description,
+          ordinal = item.text .. " " .. item.description,
+        }
+      end,
+    }),
+    sorter = conf.generic_sorter(opts.picker_cfg or {}),
+    attach_mappings = function(prompt_bufnr)
+      actions.select_default:replace(function()
+        local selection = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        if confirm then
+          confirm(nil, selection.value)
+        end
+      end)
+      return true
     end,
-
-    confirm = confirm,
-    prompt = "Aider Commands > ",
-  })
+  }):find()
 end
 
 return M
