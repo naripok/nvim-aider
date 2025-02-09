@@ -8,22 +8,23 @@ local function create_cmd(opts)
   return table.concat(cmd, " ")
 end
 
+local function create_terminal(opts)
+  local toggleterm = require("toggleterm")
+  local Terminal = require("toggleterm.terminal").Terminal
+  return Terminal:new({
+    cmd = create_cmd(opts),
+    direction = "vertical",
+  })
+end
+
 function M.toggle(opts)
   if vim.fn.executable("aider") == 0 then
     vim.notify("aider executable not found in PATH", vim.log.levels.ERROR)
     return
   end
-
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
-  local toggleterm = require("toggleterm")
-  local Terminal = require("toggleterm.terminal").Terminal
-
-  local term = Terminal:new({
-    cmd = create_cmd(opts),
-    hidden = true,
-  })
-
-  term:toggle()
+  local term = create_terminal(opts)
+  term:toggle(100)
 end
 
 ---Send text to terminal
@@ -39,11 +40,7 @@ function M.send(text, opts, multi_line)
   multi_line = multi_line == nil and true or multi_line
   opts = vim.tbl_deep_extend("force", config.options, opts or {})
 
-  local Terminal = require("toggleterm.terminal").Terminal
-  local term = Terminal:new({
-    cmd = create_cmd(opts),
-    hidden = true,
-  })
+  local term = create_terminal(opts)
 
   if not term then
     vim.notify("Could not create Aider terminal.", vim.log.levels.ERROR)
