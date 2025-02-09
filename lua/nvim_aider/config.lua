@@ -94,7 +94,6 @@ function M.setup(opts)
   end
 
   M.options = vim.tbl_deep_extend("force", M.options, opts or {})
-  Snacks.config.style("nvim_aider", {})
   return M.options
 end
 
